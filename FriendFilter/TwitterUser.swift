@@ -14,17 +14,18 @@ class TwitterUser {
     var userID: String
     var name: String
     var screenName: String
-    var following: Bool
+    var toUnfollow: Bool
 
     init(session: TWTRSession!, userID: String, screenName: String, name: String) {
         self.session = session
         self.userID = userID
         self.name = name
         self.screenName = screenName
-        self.following = true
+        self.toUnfollow = false
     }
     
     func unfollow() {
+
         let resourceURL = "https://api.twitter.com/1.1/friendships/destroy.json"
         let params = ["id": self.userID]
         var clientError : NSError?
@@ -37,10 +38,10 @@ class TwitterUser {
                 if (connectionError == nil) {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
-                    self.following = false
                 }
             }
         }
+        
     }
     
     func follow() {
@@ -56,7 +57,6 @@ class TwitterUser {
                 if (connectionError == nil) {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
-                    self.following = true
                 }
             }
         }

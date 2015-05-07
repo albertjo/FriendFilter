@@ -18,6 +18,13 @@
 		543538171AFAE76200CF03B6 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 543538141AFAE76200CF03B6 /* TwitterKitResources.bundle */; };
 		5435381A1AFAE78900CF03B6 /* TwitterSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543538191AFAE78900CF03B6 /* TwitterSessionViewController.swift */; };
 		5435381D1AFAED3500CF03B6 /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5435381C1AFAED3500CF03B6 /* TwitterUser.swift */; };
+		543C619D1AFB2F500065C103 /* TwitterSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543C619C1AFB2F500065C103 /* TwitterSession.swift */; };
+		545CB0AF1AFBC94100CA0CC4 /* Reload-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 545CB0AE1AFBC94100CA0CC4 /* Reload-128.png */; };
+		54BE65961AFBDC8A0044F861 /* Logout-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 54BE65951AFBDC8A0044F861 /* Logout-128.png */; };
+		54D5F8771AFBA5D60028D59E /* TwitterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54D5F8761AFBA5D60028D59E /* TwitterTableViewCell.xib */; };
+		54D5F8791AFBA71C0028D59E /* TwitterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D5F8781AFBA71C0028D59E /* TwitterTableViewCell.swift */; };
+		54D5F87B1AFBB0AC0028D59E /* Twitter-Bird-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D5F87A1AFBB0AC0028D59E /* Twitter-Bird-256.png */; };
+		54D5F87D1AFBB6430028D59E /* Garbage-Closed-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 54D5F87C1AFBB6430028D59E /* Garbage-Closed-128.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +53,13 @@
 		543538141AFAE76200CF03B6 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
 		543538191AFAE78900CF03B6 /* TwitterSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterSessionViewController.swift; sourceTree = "<group>"; };
 		5435381C1AFAED3500CF03B6 /* TwitterUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
+		543C619C1AFB2F500065C103 /* TwitterSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterSession.swift; sourceTree = "<group>"; };
+		545CB0AE1AFBC94100CA0CC4 /* Reload-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reload-128.png"; sourceTree = "<group>"; };
+		54BE65951AFBDC8A0044F861 /* Logout-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Logout-128.png"; sourceTree = "<group>"; };
+		54D5F8761AFBA5D60028D59E /* TwitterTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterTableViewCell.xib; sourceTree = "<group>"; };
+		54D5F8781AFBA71C0028D59E /* TwitterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterTableViewCell.swift; sourceTree = "<group>"; };
+		54D5F87A1AFBB0AC0028D59E /* Twitter-Bird-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Twitter-Bird-256.png"; sourceTree = "<group>"; };
+		54D5F87C1AFBB6430028D59E /* Garbage-Closed-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Garbage-Closed-128.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +110,7 @@
 				543538181AFAE77700CF03B6 /* ViewControllers */,
 				543537F11AFAE6D800CF03B6 /* AppDelegate.swift */,
 				543537F51AFAE6D800CF03B6 /* Main.storyboard */,
+				54D5F8761AFBA5D60028D59E /* TwitterTableViewCell.xib */,
 				543537F81AFAE6D800CF03B6 /* Images.xcassets */,
 				543537FA1AFAE6D900CF03B6 /* LaunchScreen.xib */,
 				543537EF1AFAE6D800CF03B6 /* Supporting Files */,
@@ -106,6 +121,10 @@
 		543537EF1AFAE6D800CF03B6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				54BE65951AFBDC8A0044F861 /* Logout-128.png */,
+				545CB0AE1AFBC94100CA0CC4 /* Reload-128.png */,
+				54D5F87C1AFBB6430028D59E /* Garbage-Closed-128.png */,
+				54D5F87A1AFBB0AC0028D59E /* Twitter-Bird-256.png */,
 				543537F01AFAE6D800CF03B6 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -133,6 +152,7 @@
 			children = (
 				543537F31AFAE6D800CF03B6 /* ViewController.swift */,
 				543538191AFAE78900CF03B6 /* TwitterSessionViewController.swift */,
+				54D5F8781AFBA71C0028D59E /* TwitterTableViewCell.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -141,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				5435381C1AFAED3500CF03B6 /* TwitterUser.swift */,
+				543C619C1AFB2F500065C103 /* TwitterSession.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -226,9 +247,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				545CB0AF1AFBC94100CA0CC4 /* Reload-128.png in Resources */,
+				54D5F87B1AFBB0AC0028D59E /* Twitter-Bird-256.png in Resources */,
 				543538171AFAE76200CF03B6 /* TwitterKitResources.bundle in Resources */,
 				543537F71AFAE6D800CF03B6 /* Main.storyboard in Resources */,
 				543537FC1AFAE6D900CF03B6 /* LaunchScreen.xib in Resources */,
+				54D5F8771AFBA5D60028D59E /* TwitterTableViewCell.xib in Resources */,
+				54BE65961AFBDC8A0044F861 /* Logout-128.png in Resources */,
+				54D5F87D1AFBB6430028D59E /* Garbage-Closed-128.png in Resources */,
 				543537F91AFAE6D800CF03B6 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,6 +292,8 @@
 				543537F41AFAE6D800CF03B6 /* ViewController.swift in Sources */,
 				5435381A1AFAE78900CF03B6 /* TwitterSessionViewController.swift in Sources */,
 				5435381D1AFAED3500CF03B6 /* TwitterUser.swift in Sources */,
+				54D5F8791AFBA71C0028D59E /* TwitterTableViewCell.swift in Sources */,
+				543C619D1AFB2F500065C103 /* TwitterSession.swift in Sources */,
 				543537F21AFAE6D800CF03B6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +500,7 @@
 				5435380D1AFAE6D900CF03B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5435380E1AFAE6D900CF03B6 /* Build configuration list for PBXNativeTarget "FriendFilterTests" */ = {
 			isa = XCConfigurationList;
@@ -480,6 +509,7 @@
 				543538101AFAE6D900CF03B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
