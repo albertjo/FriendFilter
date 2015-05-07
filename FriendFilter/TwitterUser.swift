@@ -12,15 +12,19 @@ import TwitterKit
 class TwitterUser {
     var session: TWTRSession!
     var userID: String
+    var name: String
+    var screenName: String
     var following: Bool
 
-    init(session: TWTRSession!, userID: String) {
+    init(session: TWTRSession!, userID: String, screenName: String, name: String) {
         self.session = session
         self.userID = userID
-        self.following = true        
+        self.name = name
+        self.screenName = screenName
+        self.following = true
     }
     
-    func destroy() {
+    func unfollow() {
         let resourceURL = "https://api.twitter.com/1.1/friendships/destroy.json"
         let params = ["id": self.userID]
         var clientError : NSError?
@@ -39,7 +43,7 @@ class TwitterUser {
         }
     }
     
-    func undoDestroy() {
+    func follow() {
         let resourceURL = "https://api.twitter.com/1.1/friendships/create.json"
         let params = ["id": self.userID]
         var clientError : NSError?

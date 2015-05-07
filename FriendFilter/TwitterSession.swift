@@ -11,25 +11,31 @@ import TwitterKit
 
 class TwitterSession {
     var session: TWTRSession!
-    var followerIDs = NSMutableArray()
-    var followeeIDs = NSMutableArray()
-    var nonfollowerIDs = NSMutableArray()
+    var followers = NSMutableArray()
+    var followees = NSMutableArray()
+    var nonfollowers = NSMutableArray()
     
     init(session: TWTRSession) {
         self.session = session
-        self.loadFolloweeIDs()
+        self.loadFollowees()
     }
     
-    private func getFolloweesThatAreNotFollowers() {
-        for followee in self.followeeIDs {
-            if !self.followerIDs.containsObject(followee) {
-                self.nonfollowerIDs.addObject(followee)
+    private func getNonfollowers() {
+        for followee in followees {
+            if !followers.containsObject(followee) {
+               let followeeDict = followee as! NSDictionary
+               let screenName = followeeDict["screen_name"]! as! String
+               let name = followeeDict["name"] as! String
+               let id = followeeDict["id"] as! NSNumber
+               let user = TwitterUser(session: self.session, userID: "\(id)", screenName: "@\(screenName)", name: name)
+                
+               self.nonfollowers.addObject(user)
             }
         }
     }
     
-    private func loadFollowerIDs() {
-        let resourceURL = "https://api.twitter.com/1.1/followers/ids.json"
+    private func loadFollowers() {
+        let resourceURL = "https://api.twitter.com/1.1/followers/list.json"
         let request = self.getRequest(resourceURL)
         if request != nil {
             Twitter.sharedInstance().APIClient.sendTwitterRequest(request) {
@@ -37,17 +43,16 @@ class TwitterSession {
                 if (connectionError == nil) {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
-                    self.followerIDs = self.getIDsFromParsedJSONDictionary(jsonDict)
-                    self.getFolloweesThatAreNotFollowers()
-                    
+                    self.followers = NSMutableArray(array: jsonDict["users"] as! NSArray)
+                    self.getNonfollowers()
                     NSNotificationCenter.defaultCenter().postNotificationName("RetrievedNonfollowers", object: nil)
                 }
             }
         }
     }
     
-    private func loadFolloweeIDs() {
-        let resourceURL = "https://api.twitter.com/1.1/friends/ids.json"
+    private func loadFollowees() {
+        let resourceURL = "https://api.twitter.com/1.1/friends/list.json"
         let request = self.getRequest(resourceURL)
         if request != nil {
             Twitter.sharedInstance().APIClient.sendTwitterRequest(request) {
@@ -55,8 +60,8 @@ class TwitterSession {
                 if (connectionError == nil) {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
-                    self.followeeIDs = self.getIDsFromParsedJSONDictionary(jsonDict)
-                    self.loadFollowerIDs()
+                    self.followees = NSMutableArray(array: jsonDict["users"] as! NSArray)
+                    self.loadFollowers()
                 }
             }
         }
@@ -68,7 +73,7 @@ class TwitterSession {
     }
     
     private func getRequest(resourceURL: String) -> NSURLRequest? {
-        let params = ["id": session.userID]
+        let params = ["id": session.userID, "count": "200", "skip_status": "true"]
         var clientError : NSError?
         return Twitter.sharedInstance().APIClient.URLRequestWithMethod("GET", URL: resourceURL, parameters: params,error: &clientError)
     }

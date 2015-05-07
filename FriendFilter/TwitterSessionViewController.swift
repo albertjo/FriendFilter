@@ -14,15 +14,17 @@ class TwitterSessionViewController: UIViewController , UITableViewDelegate, UITa
     @IBOutlet weak var followeeTableView: UITableView!
     var session : TWTRSession!
     var userSession: TwitterSession?
-    var nonfollowers = NSMutableArray()
+
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userSession = TwitterSession(session: self.session)
         
-        
-        self.followeeTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        // tableview related 
+        var nib = UINib(nibName: "TwitterTableViewCell", bundle: nil)
+        //self.followeeTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.followeeTableView.registerNib(nib, forCellReuseIdentifier: "cell")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "receivedNotification:", name:"RetrievedNonfollowers", object: nil)
     }
 
@@ -31,45 +33,32 @@ class TwitterSessionViewController: UIViewController , UITableViewDelegate, UITa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.nonfollowers.count
+        return self.userSession!.nonfollowers.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! TwitterTableViewCell
         let row = indexPath.row
-        let nonfollower = self.nonfollowers[row] as! TwitterUser
-        
-        cell.textLabel?.text = nonfollower.userID
+        let nonfollower = self.userSession!.nonfollowers[row] as! TwitterUser
+        cell.nameLabel?.text = nonfollower.name
+        cell.screenNameLabel?.text = nonfollower.screenName
+        //cell.button.addTarget(self, action: <#Selector#>, forControlEvents: <#UIControlEvents#>)
         return cell
-    
     }
     
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! TwitterTableViewCell
+        cell.userInteractionEnabled = false
     }
     
     func receivedNotification(notification: NSNotification){
-        self.aggregateNonfollowers()
         self.updateView()
     }
     
     func updateView() {
-
         self.followeeTableView.reloadData()
     }
-    
-    private func aggregateNonfollowers() {
-        for id in userSession!.nonfollowerIDs {
-            let user = TwitterUser(session: self.session, userID: "\(id)")
-            self.nonfollowers.addObject(user)
-        }
-    }
    
-    
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    /*override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print(sender)
-    }*/
 }
