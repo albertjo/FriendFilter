@@ -11,16 +11,25 @@ import TwitterKit
 
 class TwitterSession {
     var session: TWTRSession!
-    var followerIDs: NSMutableArray?
-    var followeeIDs: NSMutableArray?
+    var followerIDs = NSMutableArray()
+    var followeeIDs = NSMutableArray()
+    var IDsOfFolloweesThatAreNotFollowers = NSMutableArray()
     
     init(session: TWTRSession) {
         self.session = session
+        self.loadFollowerIDs()
     }
     
-    func loadFollowerIDs() {
+    private func getFolloweesThatAreNotFollowers() {
+        for followee in self.followeeIDs {
+            if !self.followerIDs.containsObject(followee) {
+                self.IDsOfFolloweesThatAreNotFollowers.addObject(followee)
+            }
+        }
+    }
+    
+    private func loadFollowerIDs() {
         let resourceURL = "https://api.twitter.com/1.1/followers/ids.json"
-        //requestFromURLAndGetUsers(resourceURL)
         let request = self.getRequest(resourceURL)
         if request != nil {
             Twitter.sharedInstance().APIClient.sendTwitterRequest(request) {
@@ -29,14 +38,14 @@ class TwitterSession {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
                     self.followerIDs = self.getIDsFromParsedJSONDictionary(jsonDict)
+                    self.loadFolloweeIDs()
                 }
             }
         }
     }
     
-    func loadFolloweesIDs() {
+    private func loadFolloweeIDs() {
         let resourceURL = "https://api.twitter.com/1.1/friends/ids.json"
-        //requestFromURLAndGetUsers(resourceURL)
         let request = self.getRequest(resourceURL)
         if request != nil {
             Twitter.sharedInstance().APIClient.sendTwitterRequest(request) {
@@ -45,13 +54,15 @@ class TwitterSession {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
                     self.followeeIDs = self.getIDsFromParsedJSONDictionary(jsonDict)
+                    self.getFolloweesThatAreNotFollowers()
                 }
             }
         }
     }
     
     private func getIDsFromParsedJSONDictionary(dictionary: NSDictionary) -> NSMutableArray {
-        return dictionary["ids"] as! NSMutableArray
+        var ids = NSMutableArray(array: dictionary["ids"] as! NSArray)
+        return ids
     }
     
     private func getRequest(resourceURL: String) -> NSURLRequest? {
@@ -65,4 +76,6 @@ class TwitterSession {
         var boardsDictionary: NSDictionary = NSJSONSerialization.JSONObjectWithData(inputData, options: NSJSONReadingOptions.MutableContainers, error: &error)as! NSDictionary
         return boardsDictionary
     }
+    
+    
 }
