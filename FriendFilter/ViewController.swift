@@ -21,15 +21,22 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func navigateToTwitterSessionScreen() {
-        self.performSegueWithIdentifier("ShowTwitterSession", sender: self)
+    private func navigateToTwitterSessionScreen(session: TWTRSession) {
+        self.performSegueWithIdentifier("ShowTwitterSession", sender: session)
     }
 
     @IBAction func signInWithTwitter(sender: AnyObject) {
         Twitter.sharedInstance().logInWithCompletion { (session: TWTRSession!, error: NSError!) -> Void in
             if session != nil {
-                self.navigateToTwitterSessionScreen()
+                self.navigateToTwitterSessionScreen(session)
             }
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowTwitterSession" {
+            let vc = segue.destinationViewController as! TwitterSessionViewController
+            vc.session = sender as! TWTRSession
         }
     }
 
