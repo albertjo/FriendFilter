@@ -17,7 +17,7 @@ class TwitterUser {
     init(session: TWTRSession!, userID: String) {
         self.session = session
         self.userID = userID
-        self.following = true
+        self.following = true        
     }
     
     func destroy() {

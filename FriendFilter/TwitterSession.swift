@@ -13,17 +13,17 @@ class TwitterSession {
     var session: TWTRSession!
     var followerIDs = NSMutableArray()
     var followeeIDs = NSMutableArray()
-    var IDsOfFolloweesThatAreNotFollowers = NSMutableArray()
+    var nonfollowerIDs = NSMutableArray()
     
     init(session: TWTRSession) {
         self.session = session
-        self.loadFollowerIDs()
+        self.loadFolloweeIDs()
     }
     
     private func getFolloweesThatAreNotFollowers() {
         for followee in self.followeeIDs {
             if !self.followerIDs.containsObject(followee) {
-                self.IDsOfFolloweesThatAreNotFollowers.addObject(followee)
+                self.nonfollowerIDs.addObject(followee)
             }
         }
     }
@@ -38,7 +38,9 @@ class TwitterSession {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
                     self.followerIDs = self.getIDsFromParsedJSONDictionary(jsonDict)
-                    self.loadFolloweeIDs()
+                    self.getFolloweesThatAreNotFollowers()
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("RetrievedNonfollowers", object: nil)
                 }
             }
         }
@@ -54,7 +56,7 @@ class TwitterSession {
                     var jsonError : NSError?
                     let jsonDict = self.parseJSON(data)
                     self.followeeIDs = self.getIDsFromParsedJSONDictionary(jsonDict)
-                    self.getFolloweesThatAreNotFollowers()
+                    self.loadFollowerIDs()
                 }
             }
         }
