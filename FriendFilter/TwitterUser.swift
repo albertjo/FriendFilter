@@ -11,48 +11,56 @@ import TwitterKit
 
 class TwitterUser {
     var session: TWTRSession!
-    var username: String
-    var name : String
-    var user_id: Int
+    var userID: String
+    var following: Bool
 
-    init(session: TWTRSession!, username: String, name: String, id: Int) {
+    init(session: TWTRSession!, userID: String) {
         self.session = session
-        self.username = username
-        self.name = name
-        self.user_id = id
+        self.userID = userID
+        self.following = true
     }
     
-    func unfollow() {
-
-        
-        /*let statusesShowEndpoint = "https://api.twitter.com/1.1/statuses/show.json"
-        let params = ["id": "20"]
+    func destroy() {
+        let resourceURL = "https://api.twitter.com/1.1/friendships/destroy.json"
+        let params = ["id": self.userID]
         var clientError : NSError?
         
-        let request = Twitter.sharedInstance().APIClient.
-            URLRequestWithMethod(
-                "GET", URL: statusesShowEndpoint, parameters: params,
-                error: &clientError)
+        let request = Twitter.sharedInstance().APIClient.URLRequestWithMethod("POST", URL: resourceURL, parameters: params, error: &clientError)
         
         if request != nil {
-            Twitter.sharedInstance().APIClient.
-                sendTwitterRequest(request) {
-                    (response, data, connectionError) -> Void in
-                    if (connectionError == nil) {
-                        var jsonError : NSError?
-                        let json : AnyObject? =
-                        NSJSONSerialization.JSONObjectWithData(data,
-                            options: nil,
-                            error: &jsonError)
-                    }
-                    else {
-                        println("Error: \(connectionError)")
-                    }
+            Twitter.sharedInstance().APIClient.sendTwitterRequest(request) {
+                (response, data, connectionError) -> Void in
+                if (connectionError == nil) {
+                    var jsonError : NSError?
+                    let jsonDict = self.parseJSON(data)
+                    self.following = false
+                }
             }
         }
-        else {
-            println("Error: \(clientError)")
-        }*/
+    }
+    
+    func undoDestroy() {
+        let resourceURL = "https://api.twitter.com/1.1/friendships/create.json"
+        let params = ["id": self.userID]
+        var clientError : NSError?
         
+        let request = Twitter.sharedInstance().APIClient.URLRequestWithMethod("POST", URL: resourceURL, parameters: params, error: &clientError)
+        
+        if request != nil {
+            Twitter.sharedInstance().APIClient.sendTwitterRequest(request) {
+                (response, data, connectionError) -> Void in
+                if (connectionError == nil) {
+                    var jsonError : NSError?
+                    let jsonDict = self.parseJSON(data)
+                    self.following = true
+                }
+            }
+        }
+    }
+    
+    private func parseJSON(inputData: NSData) -> NSDictionary {
+        var error: NSError?
+        var boardsDictionary: NSDictionary = NSJSONSerialization.JSONObjectWithData(inputData, options: NSJSONReadingOptions.MutableContainers, error: &error)as! NSDictionary
+        return boardsDictionary
     }
 }
