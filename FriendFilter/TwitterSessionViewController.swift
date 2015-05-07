@@ -14,8 +14,6 @@ class TwitterSessionViewController: UIViewController , UITableViewDelegate, UITa
     @IBOutlet weak var followeeTableView: UITableView!
     var session : TWTRSession!
     var userSession: TwitterSession?
-
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +21,6 @@ class TwitterSessionViewController: UIViewController , UITableViewDelegate, UITa
         
         // tableview related 
         var nib = UINib(nibName: "TwitterTableViewCell", bundle: nil)
-        //self.followeeTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.followeeTableView.registerNib(nib, forCellReuseIdentifier: "cell")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "receivedNotification:", name:"RetrievedNonfollowers", object: nil)
     }
@@ -40,9 +37,16 @@ class TwitterSessionViewController: UIViewController , UITableViewDelegate, UITa
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! TwitterTableViewCell
         let row = indexPath.row
         let nonfollower = self.userSession!.nonfollowers[row] as! TwitterUser
+        
+        // cell label config
         cell.nameLabel?.text = nonfollower.name
         cell.screenNameLabel?.text = nonfollower.screenName
-        //cell.button.addTarget(self, action: <#Selector#>, forControlEvents: <#UIControlEvents#>)
+        
+        // button config
+        cell.button.tag = row
+        cell.button.setTitle(nonfollower.following ? "unfollow" : "follow", forState: UIControlState.Normal)
+        cell.button.addTarget(self, action: "twitterTableViewCellButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        
         return cell
     }
     
@@ -58,6 +62,17 @@ class TwitterSessionViewController: UIViewController , UITableViewDelegate, UITa
     
     func updateView() {
         self.followeeTableView.reloadData()
+    }
+    
+     func twitterTableViewCellButtonPressed(sender: UIButton!) {
+        let row = sender.tag
+        let nonfollower = self.userSession!.nonfollowers[row] as! TwitterUser
+        if (nonfollower.following) {
+            nonfollower.unfollow()
+        } else {
+            nonfollower.follow()
+        }
+        self.updateView()
     }
    
 

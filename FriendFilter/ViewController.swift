@@ -9,10 +9,19 @@
 import UIKit
 import TwitterKit
 
+
 class ViewController: UIViewController {
 
+   
+    @IBOutlet var backgroundView: UIView!
+    @IBOutlet weak var twitterSignInButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.backgroundView.backgroundColor = UIColor(red: 0.098, green: 0.71, blue: 0.996, alpha: 1)
+        self.twitterSignInButton.layer.borderWidth = 1
+        self.twitterSignInButton.layer.borderColor = UIColor.whiteColor().CGColor
     }
 
     override func didReceiveMemoryWarning() {
